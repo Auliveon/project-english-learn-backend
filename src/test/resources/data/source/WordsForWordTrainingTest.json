@@ -1,0 +1,42 @@
+[
+  {
+    "infinitive": "run",
+    "simplePast": "ran",
+    "pastParticiple": "ran",
+    "verb": true,
+    "irregular": true,
+    "sentence": {
+      "value": "Run away",
+      "translation": "Тестовый перевод"
+    },
+    "translations": [
+      {
+        "value": "бежать"
+      }
+    ],
+    "simplePastTranslations": [
+      {
+        "value": "бежал"
+      }
+    ],
+    "pastParticipleTranslations": [
+      {
+        "value": "бежал"
+      }
+    ]
+  },
+  {
+    "infinitive": "cat",
+    "verb": false,
+    "irregular": true,
+    "sentence": {
+      "value": "My cat",
+      "translation": "Мой кот"
+    },
+    "translations": [
+      {
+        "value": "Кот"
+      }
+    ]
+  }
+]

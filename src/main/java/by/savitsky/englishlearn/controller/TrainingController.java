@@ -1,0 +1,32 @@
+package by.savitsky.englishlearn.controller;
+
+import by.savitsky.englishlearn.training.Training;
+import by.savitsky.englishlearn.training.TrainingFactoryProvider;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TrainingController {
+
+    private final TrainingFactoryProvider trainingFactoryProvider;
+
+    public TrainingController(TrainingFactoryProvider trainingFactoryProvider) {
+        this.trainingFactoryProvider = trainingFactoryProvider;
+    }
+
+    @GetMapping(value = "/training", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getWordTraining(@RequestParam String type, @RequestParam Integer count) {
+        try {
+            final Training training = trainingFactoryProvider.getFactory(type).create(count);
+            return ResponseEntity.ok(training);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+}
