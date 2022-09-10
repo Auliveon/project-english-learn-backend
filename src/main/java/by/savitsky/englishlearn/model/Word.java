@@ -62,7 +62,8 @@ public class Word {
     @Column(name = COLUMN_IS_IRREGULAR, nullable = false)
     private Boolean irregular;
 
-    @OneToOne(mappedBy = "word", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = Word.FK_COLUMN_PID, referencedColumnName = Word.COLUMN_PID)
     private Sentence sentence;
 
     @ElementCollection(fetch = FetchType.EAGER)

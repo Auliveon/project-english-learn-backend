@@ -46,7 +46,6 @@ public class WordTrainingFactoryTest {
             final List<Word> words = objectMapper.readValue(
                     stream.collect(Collectors.joining()),
                     TypeFactory.defaultInstance().constructCollectionType(List.class, Word.class));
-            System.out.println(words);
             words.forEach(wordService::save);
         } catch (Exception e) {
             e.printStackTrace();

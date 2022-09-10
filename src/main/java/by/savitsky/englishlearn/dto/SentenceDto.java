@@ -1,7 +1,5 @@
 package by.savitsky.englishlearn.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Objects;
 
 public class SentenceDto {
@@ -11,9 +9,6 @@ public class SentenceDto {
     private String value;
 
     private String translation;
-
-    @JsonIgnore
-    private WordDto word;
 
     public String getPid() {
         return pid;
@@ -37,14 +32,6 @@ public class SentenceDto {
 
     public void setTranslation(String translation) {
         this.translation = translation;
-    }
-
-    public WordDto getWord() {
-        return word;
-    }
-
-    public void setWord(WordDto word) {
-        this.word = word;
     }
 
     @Override

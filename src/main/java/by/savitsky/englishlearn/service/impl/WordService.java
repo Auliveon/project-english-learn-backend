@@ -2,7 +2,6 @@ package by.savitsky.englishlearn.service.impl;
 
 import by.savitsky.englishlearn.dto.WordDto;
 import by.savitsky.englishlearn.mapper.WordMapper;
-import by.savitsky.englishlearn.model.Translation;
 import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IWordService;
 import by.savitsky.englishlearn.util.RandomUtil;
@@ -11,11 +10,12 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class WordService implements IWordService {
@@ -68,6 +68,31 @@ public class WordService implements IWordService {
     public void save(WordDto wordDto) {
         final Word word = mapper.wordDtoToSource(wordDto);
         save(word);
+    }
+
+    @Override
+    @Transactional
+    public void update(Word word) {
+        if (word.getVerb()) {
+            if (!word.getIrregular()) {
+                final String infinitive = word.getInfinitive();
+                if (infinitive.endsWith(Word.FIRST_SUFFIX)) {
+                    word.setSimplePast(infinitive + Word.PAST_SUFFIX);
+                    word.setPastParticiple(infinitive + Word.PAST_SUFFIX);
+                } else {
+                    word.setSimplePast(infinitive + Word.PAST_FULL_SUFFIX);
+                    word.setPastParticiple(infinitive + Word.PAST_FULL_SUFFIX);
+                }
+            }
+        }
+        sessionFactory.getCurrentSession().update(word);
+    }
+
+    @Override
+    @Transactional
+    public void update(WordDto wordDto) {
+        final Word word = mapper.wordDtoToSource(wordDto);
+        update(word);
     }
 
     @Override

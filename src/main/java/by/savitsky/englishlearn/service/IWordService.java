@@ -11,6 +11,10 @@ public interface IWordService {
 
     void save(WordDto wordDto);
 
+    void update(Word word);
+
+    void update(WordDto wordDto);
+
     void save(List<Word> words);
 
     List<Word> getAllWords();

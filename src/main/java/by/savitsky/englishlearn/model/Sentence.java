@@ -31,8 +31,7 @@ public class Sentence {
     @Column(name = COLUMN_TRANSLATION, length = 2000)
     private String translation;
 
-    @OneToOne
-    @JoinColumn(name = Word.FK_COLUMN_PID, referencedColumnName = Word.COLUMN_PID)
+    @OneToOne(mappedBy = "sentence")
     @JsonIgnore
     private Word word;
 
