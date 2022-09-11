@@ -35,12 +35,14 @@ public class WordFactory implements IFactory {
                         .collect(Collectors.toList()))
                 .flatMap(Collection::stream).distinct().forEach(units::add);
 
-        words.stream().map(word -> word.getSimplePastTranslations().stream()
+        words.stream().filter(WordDto::isIrregular)
+                .map(word -> word.getSimplePastTranslations().stream()
                         .map(translation -> new WordUnit(word.getSimplePast(), translation.getValue()))
                         .collect(Collectors.toList()))
                 .flatMap(Collection::stream).distinct().forEach(units::add);
 
-        words.stream().map(word -> word.getPastParticipleTranslations().stream()
+        words.stream().filter(WordDto::isIrregular)
+                .map(word -> word.getPastParticipleTranslations().stream()
                         .map(translation -> new WordUnit(word.getPastParticiple(), translation.getValue()))
                         .collect(Collectors.toList()))
                 .flatMap(Collection::stream).distinct().forEach(units::add);
