@@ -5,6 +5,7 @@ import by.savitsky.englishlearn.mapper.FilterMapper;
 import by.savitsky.englishlearn.training.Training;
 import by.savitsky.englishlearn.training.TrainingConfig;
 import by.savitsky.englishlearn.training.TrainingFactoryProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ public class TrainingController {
     }
 
     @GetMapping(value = "/training", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getTraining(@RequestParam String type, @RequestParam(required = false, defaultValue = "") String filterId,
+    public ResponseEntity<?> getTraining(@RequestParam String type, @RequestParam(required = false, defaultValue = StringUtils.EMPTY) String filterId,
             @RequestParam Integer count) {
         try {
             final Training training = trainingFactoryProvider.getFactory(type)

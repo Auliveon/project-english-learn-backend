@@ -4,6 +4,7 @@ import by.savitsky.englishlearn.dto.PhraseDto;
 import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.training.IFilter;
 import by.savitsky.englishlearn.training.TrainingFactoryProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PhraseController {
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPhrasesCount(@RequestParam(required = false, defaultValue = "") String filterId) {
+    public ResponseEntity<?> getPhrasesCount(@RequestParam(required = false, defaultValue = StringUtils.EMPTY) String filterId) {
         try {
             final Optional<IFilter> filterOptional = trainingFactoryProvider.getFilterById(filterId);
             final Long phrasesCount = phraseService.getPhrasesCountByCriterionList(filterOptional.map(

@@ -6,6 +6,7 @@ import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IWordService;
 import by.savitsky.englishlearn.training.IFilter;
 import by.savitsky.englishlearn.util.RandomUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -155,7 +156,8 @@ public class WordService implements IWordService {
 
     private Word getRandomWord(int position, List<String> sqlConditions) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Word" + (sqlConditions.isEmpty() ? "" : " where " + String.join(", ", sqlConditions)), Word.class)
+                .createQuery("from Word" + (sqlConditions.isEmpty() ? StringUtils.EMPTY : " where "
+                        + String.join(", ", sqlConditions)), Word.class)
                 .setFirstResult(position)
                 .setMaxResults(1)
                 .getSingleResult();

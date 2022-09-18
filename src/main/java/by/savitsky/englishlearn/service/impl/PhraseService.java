@@ -5,6 +5,7 @@ import by.savitsky.englishlearn.mapper.PhraseMapper;
 import by.savitsky.englishlearn.model.Phrase;
 import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.util.RandomUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -131,7 +132,8 @@ public class PhraseService implements IPhraseService {
 
     private Phrase getRandomPhrase(int position, List<String> sqlConditions) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Phrase" + (sqlConditions.isEmpty() ? "" : " where " + String.join(", ", sqlConditions)), Phrase.class)
+                .createQuery("from Phrase" + (sqlConditions.isEmpty() ? StringUtils.EMPTY : " where "
+                        + String.join(", ", sqlConditions)), Phrase.class)
                 .setFirstResult(position)
                 .setMaxResults(1)
                 .getSingleResult();

@@ -7,7 +7,6 @@ import by.savitsky.englishlearn.training.*;
 import org.hibernate.criterion.Criterion;
 import org.mapstruct.factory.Mappers;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +27,7 @@ public class WordFactory implements IFactory {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public Training create(TrainingConfig trainingConfig) {
         final Optional<IFilter> filterOptional = filters.values().stream()
                 .filter(filter -> filter.getId().equals(trainingConfig.getFilterId()))

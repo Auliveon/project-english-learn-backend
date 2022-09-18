@@ -4,6 +4,7 @@ import by.savitsky.englishlearn.dto.WordDto;
 import by.savitsky.englishlearn.service.IWordService;
 import by.savitsky.englishlearn.training.IFilter;
 import by.savitsky.englishlearn.training.TrainingFactoryProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class WordController {
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getWordsCount(@RequestParam(required = false, defaultValue = "") String filterId) {
+    public ResponseEntity<?> getWordsCount(@RequestParam(required = false, defaultValue = StringUtils.EMPTY) String filterId) {
         try {
             final Optional<IFilter> filterOptional = trainingFactoryProvider.getFilterById(filterId);
             final Long wordsCount = wordService.getWordsCountByCriterionList(filterOptional.map(

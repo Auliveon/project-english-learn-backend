@@ -1,5 +1,7 @@
 package by.savitsky.englishlearn.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -20,7 +22,7 @@ public class StreamContentLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return StringUtils.EMPTY;
     }
 
 }

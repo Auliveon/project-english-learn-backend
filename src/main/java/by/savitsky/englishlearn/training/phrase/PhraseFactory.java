@@ -2,14 +2,11 @@ package by.savitsky.englishlearn.training.phrase;
 
 import by.savitsky.englishlearn.dto.PhraseDto;
 import by.savitsky.englishlearn.mapper.PhraseMapper;
-import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.training.*;
 import org.hibernate.criterion.Criterion;
 import org.mapstruct.factory.Mappers;
 
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +27,7 @@ public class PhraseFactory implements IFactory {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public Training create(TrainingConfig trainingConfig) {
         final Optional<IFilter> filterOptional = filters.values().stream()
                 .filter(filter -> filter.getId().equals(trainingConfig.getFilterId()))
