@@ -3,7 +3,6 @@ package by.savitsky.englishlearn.service.impl;
 import by.savitsky.englishlearn.dto.PhraseDto;
 import by.savitsky.englishlearn.mapper.PhraseMapper;
 import by.savitsky.englishlearn.model.Phrase;
-import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.util.RandomUtil;
 import org.hibernate.Criteria;
@@ -14,7 +13,10 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
