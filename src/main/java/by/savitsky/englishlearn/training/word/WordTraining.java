@@ -1,6 +1,7 @@
 package by.savitsky.englishlearn.training.word;
 
 import by.savitsky.englishlearn.training.Training;
+import by.savitsky.englishlearn.training.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +10,12 @@ public class WordTraining implements Training {
 
     private Integer count;
 
-    private List<WordUnit> wordUnits = new ArrayList<>();
+    private List<Unit> wordUnits = new ArrayList<>();
 
     public WordTraining() {
     }
 
-    public WordTraining(Integer count, List<WordUnit> wordUnits) {
+    public WordTraining(Integer count, List<Unit> wordUnits) {
         this.count = count;
         this.wordUnits = wordUnits;
     }
@@ -27,11 +28,11 @@ public class WordTraining implements Training {
         this.count = count;
     }
 
-    public List<WordUnit> getWordUnits() {
+    public List<Unit> getWordUnits() {
         return wordUnits;
     }
 
-    public void setWordUnits(List<WordUnit> wordUnits) {
+    public void setWordUnits(List<Unit> wordUnits) {
         this.wordUnits = wordUnits;
     }
 

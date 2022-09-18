@@ -1,7 +1,7 @@
 package by.savitsky.englishlearn.controller;
 
-import by.savitsky.englishlearn.dto.WordDto;
-import by.savitsky.englishlearn.service.IWordService;
+import by.savitsky.englishlearn.dto.PhraseDto;
+import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.training.IFilter;
 import by.savitsky.englishlearn.training.TrainingFactoryProvider;
 import org.springframework.http.HttpStatus;
@@ -14,26 +14,26 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/words")
-public class WordController {
+@RequestMapping(value = "/phrases")
+public class PhraseController {
 
-    private final IWordService wordService;
+    private final IPhraseService phraseService;
 
     private final TrainingFactoryProvider trainingFactoryProvider;
 
-    public WordController(IWordService wordService, TrainingFactoryProvider trainingFactoryProvider) {
-        this.wordService = wordService;
+    public PhraseController(IPhraseService phraseService, TrainingFactoryProvider trainingFactoryProvider) {
+        this.phraseService = phraseService;
         this.trainingFactoryProvider = trainingFactoryProvider;
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getWordsCount(@RequestParam(required = false, defaultValue = "") String filterId) {
+    public ResponseEntity<?> getPhrasesCount(@RequestParam(required = false, defaultValue = "") String filterId) {
         try {
             final Optional<IFilter> filterOptional = trainingFactoryProvider.getFilterById(filterId);
-            final Long wordsCount = wordService.getWordsCountByCriterionList(filterOptional.map(
+            final Long phrasesCount = phraseService.getPhrasesCountByCriterionList(filterOptional.map(
                     IFilter::getCriterionList).orElse(
                     Collections.emptyList()));
-            return ResponseEntity.ok(wordsCount);
+            return ResponseEntity.ok(phrasesCount);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,10 +41,10 @@ public class WordController {
     }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllWords() {
+    public ResponseEntity<?> getAllPhrases() {
         try {
-            final List<WordDto> words = wordService.getAllWordDto();
-            return ResponseEntity.ok(words);
+            final List<PhraseDto> phrases = phraseService.getAllPhraseDto();
+            return ResponseEntity.ok(phrases);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,9 +52,9 @@ public class WordController {
     }
 
     @DeleteMapping(value = "/remove", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> removeWords(@RequestBody List<String> pids) {
+    public ResponseEntity<?> removePhrases(@RequestBody List<String> pids) {
         try {
-            wordService.deleteWords(pids);
+            phraseService.deletePhrases(pids);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,9 +63,9 @@ public class WordController {
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveWord(@RequestBody WordDto wordDto) {
+    public ResponseEntity<?> savePhrase(@RequestBody PhraseDto phraseDto) {
         try {
-            wordService.save(wordDto);
+            phraseService.save(phraseDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,9 +74,9 @@ public class WordController {
     }
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateWord(@RequestBody WordDto wordDto) {
+    public ResponseEntity<?> updatePhrase(@RequestBody PhraseDto phraseDto) {
         try {
-            wordService.update(wordDto);
+            phraseService.update(phraseDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

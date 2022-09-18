@@ -5,6 +5,7 @@
     "pastParticiple": "ran",
     "verb": true,
     "irregular": true,
+    "phraseVerb": false,
     "sentence": {
       "value": "Run away",
       "translation": "Тестовый перевод"
@@ -29,6 +30,7 @@
     "infinitive": "cat",
     "verb": false,
     "irregular": true,
+    "phraseVerb": false,
     "sentence": {
       "value": "My cat",
       "translation": "Мой кот"

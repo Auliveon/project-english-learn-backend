@@ -3,14 +3,18 @@ package by.savitsky.englishlearn.test.training;
 import by.savitsky.englishlearn.configuration.EnglishLearnTestConfiguration;
 import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IWordService;
+import by.savitsky.englishlearn.training.TrainingConfig;
+import by.savitsky.englishlearn.training.Unit;
 import by.savitsky.englishlearn.training.word.WordFactory;
 import by.savitsky.englishlearn.training.word.WordTraining;
-import by.savitsky.englishlearn.training.word.WordUnit;
 import by.savitsky.englishlearn.util.Matcher;
 import by.savitsky.englishlearn.util.RandomUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,14 +63,14 @@ public class WordTrainingFactoryTest {
                 StandardCharsets.UTF_8);
              MockedStatic<RandomUtil> randomUtil = Mockito.mockStatic(RandomUtil.class)) {
              randomUtil.when(() -> RandomUtil.getRandomIntUniqueValues(Mockito.anyInt(), Mockito.anyInt()))
-                    .thenReturn(new int[] { 0, 1 });
-            final WordTraining actualTraining = (WordTraining) wordFactory.create(2);
+                    .thenReturn(new Integer[] { 0, 1 });
+            final WordTraining actualTraining = (WordTraining) wordFactory.create(new TrainingConfig("word", null, 2));
             randomUtil.verify(() -> RandomUtil.getRandomIntUniqueValues(Mockito.anyInt(), Mockito.anyInt()),
                     Mockito.times(1));
             final WordTraining expectedTraining = objectMapper.readValue(
                     stream.collect(Collectors.joining()), WordTraining.class);
             Assertions.assertTrue(new Matcher().match(expectedTraining, actualTraining,
-                    Collections.singletonList(WordUnit.class)));
+                    Collections.singletonList(Unit.class)));
         } catch (Exception e) {
             e.printStackTrace();
         }

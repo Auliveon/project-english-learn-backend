@@ -1,6 +1,5 @@
 package by.savitsky.englishlearn.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,22 +17,19 @@ public class Sentence {
 
     public final static String COLUMN_TRANSLATION = "f_translation";
 
+    public final static String FK_COLUMN_PID = "fk_sentence_pid";
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = COLUMN_PID)
     private String pid;
 
-
     @Column(name = COLUMN_VALUE, length = 2000)
     private String value;
 
     @Column(name = COLUMN_TRANSLATION, length = 2000)
     private String translation;
-
-    @OneToOne(mappedBy = "sentence")
-    @JsonIgnore
-    private Word word;
 
     public String getPid() {
         return pid;
@@ -57,14 +53,6 @@ public class Sentence {
 
     public void setTranslation(String translation) {
         this.translation = translation;
-    }
-
-    public Word getWord() {
-        return word;
-    }
-
-    public void setWord(Word word) {
-        this.word = word;
     }
 
     @Override

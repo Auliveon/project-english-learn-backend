@@ -6,6 +6,7 @@
     "pastParticiple": "ran",
     "verb": true,
     "irregular": true,
+    "phraseVerb": false,
     "sentence": {
       "pid": 1,
       "value": "Run away",

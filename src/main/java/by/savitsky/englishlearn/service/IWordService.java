@@ -2,8 +2,12 @@ package by.savitsky.englishlearn.service;
 
 import by.savitsky.englishlearn.dto.WordDto;
 import by.savitsky.englishlearn.model.Word;
+import by.savitsky.englishlearn.training.IFilter;
+import org.hibernate.criterion.Criterion;
 
+import javax.persistence.criteria.Predicate;
 import java.util.List;
+import java.util.Optional;
 
 public interface IWordService {
 
@@ -23,7 +27,9 @@ public interface IWordService {
 
     Long getWordsCount();
 
-    List<Word> getRandomWords(int count);
+    Long getWordsCountByCriterionList(List<Criterion> criterionList);
+
+    List<Word> getRandomWords(List<Criterion> criterionList, List<String> sqlConditions, int count);
 
     void deleteWords(List<String> pids);
 

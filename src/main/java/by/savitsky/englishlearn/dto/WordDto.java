@@ -17,6 +17,8 @@ public class WordDto {
 
     private boolean irregular;
 
+    private boolean phraseVerb;
+
     private SentenceDto sentence;
 
     private Set<TranslationDto> translations;
@@ -71,6 +73,14 @@ public class WordDto {
 
     public void setIrregular(boolean irregular) {
         this.irregular = irregular;
+    }
+
+    public boolean isPhraseVerb() {
+        return phraseVerb;
+    }
+
+    public void setPhraseVerb(boolean phraseVerb) {
+        this.phraseVerb = phraseVerb;
     }
 
     public SentenceDto getSentence() {
@@ -130,6 +140,7 @@ public class WordDto {
                 ", pastParticiple='" + pastParticiple + '\'' +
                 ", verb=" + verb +
                 ", irregular=" + irregular +
+                ", phraseVerb=" + phraseVerb +
                 ", sentence=" + sentence +
                 ", translations=" + translations +
                 ", simplePastTranslations=" + simplePastTranslations +

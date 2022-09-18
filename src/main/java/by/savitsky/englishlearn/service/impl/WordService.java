@@ -4,18 +4,21 @@ import by.savitsky.englishlearn.dto.WordDto;
 import by.savitsky.englishlearn.mapper.WordMapper;
 import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IWordService;
+import by.savitsky.englishlearn.training.IFilter;
 import by.savitsky.englishlearn.util.RandomUtil;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WordService implements IWordService {
@@ -49,7 +52,7 @@ public class WordService implements IWordService {
     @Transactional
     public void save(Word word) {
         if (word.getVerb()) {
-            if (!word.getIrregular()) {
+            if (!word.getIrregular() && !word.getPhraseVerb()) {
                 final String infinitive = word.getInfinitive();
                 if (infinitive.endsWith(Word.FIRST_SUFFIX)) {
                     word.setSimplePast(infinitive + Word.PAST_SUFFIX);
@@ -74,7 +77,7 @@ public class WordService implements IWordService {
     @Transactional
     public void update(Word word) {
         if (word.getVerb()) {
-            if (!word.getIrregular()) {
+            if (!word.getIrregular() && !word.getPhraseVerb()) {
                 final String infinitive = word.getInfinitive();
                 if (infinitive.endsWith(Word.FIRST_SUFFIX)) {
                     word.setSimplePast(infinitive + Word.PAST_SUFFIX);
@@ -130,19 +133,29 @@ public class WordService implements IWordService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Word> getRandomWords(int count) {
+    @SuppressWarnings("deprecation")
+    public Long getWordsCountByCriterionList(List<Criterion> criterionList) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Word.class);
+        criterionList.forEach(criteria::add);
+        criteria.setProjection(Projections.rowCount());
+        return ((Number) criteria.uniqueResult()).longValue();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Word> getRandomWords(List<Criterion> criterionList, List<String> sqlConditions, int count) {
         final List<Word> result = new ArrayList<>();
-        final int wordsCount = getWordsCount().intValue();
-        final int[] randomValues = RandomUtil.getRandomIntUniqueValues(wordsCount, count);
+        final int wordsCount = getWordsCountByCriterionList(criterionList).intValue();
+        final Integer[] randomValues = RandomUtil.getRandomIntUniqueValues(wordsCount, count);
         for (int value : randomValues) {
-            result.add(getRandomWord(value));
+            result.add(getRandomWord(value, sqlConditions));
         }
         return result;
     }
 
-    private Word getRandomWord(int position) {
+    private Word getRandomWord(int position, List<String> sqlConditions) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Word", Word.class)
+                .createQuery("from Word" + (sqlConditions.isEmpty() ? "" : " where " + String.join(", ", sqlConditions)), Word.class)
                 .setFirstResult(position)
                 .setMaxResults(1)
                 .getSingleResult();

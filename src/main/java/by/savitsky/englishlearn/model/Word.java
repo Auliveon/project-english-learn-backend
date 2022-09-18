@@ -21,7 +21,7 @@ public class Word {
 
     public final static String TABLE_NAME = "words";
 
-    public final static String TRANSLATION_TABLE_NAME = "translations";
+    public final static String TRANSLATION_TABLE_NAME = "word_translations";
 
     public final static String SIMPLE_PAST_TRANSLATION_TABLE_NAME = "simple_past_translations";
 
@@ -38,6 +38,8 @@ public class Word {
     public final static String COLUMN_IS_VERB = "f_is_verb";
 
     public final static String COLUMN_IS_IRREGULAR = "f_is_irregular";
+
+    public final static String COLUMN_IS_PHRASE_VERB = "f_is_phrase_verb";
 
     public final static String FK_COLUMN_PID = "fk_word_pid";
 
@@ -62,8 +64,11 @@ public class Word {
     @Column(name = COLUMN_IS_IRREGULAR, nullable = false)
     private Boolean irregular;
 
+    @Column(name = COLUMN_IS_PHRASE_VERB, nullable = false)
+    private Boolean phraseVerb;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = Word.FK_COLUMN_PID, referencedColumnName = Word.COLUMN_PID)
+    @JoinColumn(name = Sentence.FK_COLUMN_PID, referencedColumnName = Sentence.COLUMN_PID)
     private Sentence sentence;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -129,6 +134,14 @@ public class Word {
         this.irregular = irregular;
     }
 
+    public Boolean getPhraseVerb() {
+        return phraseVerb;
+    }
+
+    public void setPhraseVerb(Boolean phraseVerb) {
+        this.phraseVerb = phraseVerb;
+    }
+
     public Sentence getSentence() {
         return sentence;
     }
@@ -186,6 +199,7 @@ public class Word {
                 ", pastParticiple='" + pastParticiple + '\'' +
                 ", verb=" + verb +
                 ", irregular=" + irregular +
+                ", phraseVerb=" + phraseVerb +
                 ", sentence=" + sentence +
                 ", translations=" + translations +
                 ", simplePastTranslations=" + simplePastTranslations +
