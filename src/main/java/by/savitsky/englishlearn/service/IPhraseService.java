@@ -31,6 +31,6 @@ public interface IPhraseService {
 
     Long getPhrasesCountByCriterionList(List<Criterion> criterionList);
 
-    List<Phrase> getRandomPhrases(List<Criterion> criterionList, List<String> sqlConditions, int count);
+    List<Phrase> getRandomPhrases(List<Criterion> criterionList, int count);
 
 }

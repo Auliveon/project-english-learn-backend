@@ -33,8 +33,7 @@ public class WordFactory implements IFactory {
                 .filter(filter -> filter.getId().equals(trainingConfig.getFilterId()))
                 .findFirst();
         final List<Criterion> criterionList = filterOptional.map(IFilter::getCriterionList).orElse(Collections.emptyList());
-        final List<String> sqlConditions = filterOptional.map(IFilter::getSqlConditions).orElse(Collections.emptyList());
-        final List<WordDto> words = mapper.convertWordListToWordDtoList(wordService.getRandomWords(criterionList, sqlConditions, trainingConfig.getCount()));
+        final List<WordDto> words = mapper.convertWordListToWordDtoList(wordService.getRandomWords(criterionList, trainingConfig.getCount()));
         final List<Unit> units = transform(words);
         return new WordTraining(trainingConfig.getCount(), units);
 

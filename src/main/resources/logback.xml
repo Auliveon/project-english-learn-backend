@@ -50,6 +50,8 @@
         </encoder>
     </appender>
 
+    <logger name="org.hibernate.orm.deprecation" level="OFF"/>
+
     <logger name="by.savitsky.englishlearn.controller.TrainingController" level="INFO" additivity="true">
         <appender-ref ref="TRAINING-FILE-ROLLING"/>
     </logger>

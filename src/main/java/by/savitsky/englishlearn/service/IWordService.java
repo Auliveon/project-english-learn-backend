@@ -29,7 +29,7 @@ public interface IWordService {
 
     Long getWordsCountByCriterionList(List<Criterion> criterionList);
 
-    List<Word> getRandomWords(List<Criterion> criterionList, List<String> sqlConditions, int count);
+    List<Word> getRandomWords(List<Criterion> criterionList, int count);
 
     void deleteWords(List<String> pids);
 

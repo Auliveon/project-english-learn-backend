@@ -3,6 +3,7 @@ package by.savitsky.englishlearn.service.impl;
 import by.savitsky.englishlearn.dto.PhraseDto;
 import by.savitsky.englishlearn.mapper.PhraseMapper;
 import by.savitsky.englishlearn.model.Phrase;
+import by.savitsky.englishlearn.model.Word;
 import by.savitsky.englishlearn.service.IPhraseService;
 import by.savitsky.englishlearn.util.RandomUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -120,23 +121,21 @@ public class PhraseService implements IPhraseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Phrase> getRandomPhrases(List<Criterion> criterionList, List<String> sqlConditions, int count) {
+    public List<Phrase> getRandomPhrases(List<Criterion> criterionList, int count) {
         final List<Phrase> result = new ArrayList<>();
         final int phrasesCount = getPhrasesCountByCriterionList(criterionList).intValue();
         final Integer[] randomValues = RandomUtil.getRandomIntUniqueValues(phrasesCount, count);
         for (int value : randomValues) {
-            result.add(getRandomPhrase(value, sqlConditions));
+            result.add(getRandomPhrase(value, criterionList));
         }
         return result;
     }
 
-    private Phrase getRandomPhrase(int position, List<String> sqlConditions) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Phrase" + (sqlConditions.isEmpty() ? StringUtils.EMPTY : " where "
-                        + String.join(", ", sqlConditions)), Phrase.class)
-                .setFirstResult(position)
-                .setMaxResults(1)
-                .getSingleResult();
+    @SuppressWarnings("deprecation")
+    private Phrase getRandomPhrase(int position, List<Criterion> criterionList) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Phrase.class);
+        criterionList.forEach(criteria::add);
+        return (Phrase) criteria.setFirstResult(position).setMaxResults(1).uniqueResult();
     }
 
 }

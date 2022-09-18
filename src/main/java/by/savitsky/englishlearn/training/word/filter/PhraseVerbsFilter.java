@@ -13,16 +13,12 @@ public class PhraseVerbsFilter implements IFilter {
 
     public static final String ID = "phraseVerb";
 
-    private final String id = "phraseVerb";
-
     private final String type = "WORD";
-
-    private final List<String> sqlConditions = Collections.singletonList("phraseVerb = true");
 
     private final String description = "Выбрать только фразовые глаголы";
 
     public String getId() {
-        return id;
+        return ID;
     }
 
     public String getType() {
@@ -35,21 +31,15 @@ public class PhraseVerbsFilter implements IFilter {
     }
 
     @Override
-    public List<String> getSqlConditions() {
-        return sqlConditions;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
 
     @Override
     public String toString() {
-        return "IrregularVerbFilter{" +
-                "id='" + id + '\'' +
+        return "PhraseVerbsFilter{" +
+                "id='" + getId() + '\'' +
                 ", type='" + type + '\'' +
-                ", sqlConditions=" + sqlConditions +
                 ", description='" + description + '\'' +
                 '}';
     }

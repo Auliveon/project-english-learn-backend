@@ -144,23 +144,21 @@ public class WordService implements IWordService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Word> getRandomWords(List<Criterion> criterionList, List<String> sqlConditions, int count) {
+    public List<Word> getRandomWords(List<Criterion> criterionList, int count) {
         final List<Word> result = new ArrayList<>();
         final int wordsCount = getWordsCountByCriterionList(criterionList).intValue();
         final Integer[] randomValues = RandomUtil.getRandomIntUniqueValues(wordsCount, count);
         for (int value : randomValues) {
-            result.add(getRandomWord(value, sqlConditions));
+            result.add(getRandomWord(value, criterionList));
         }
         return result;
     }
 
-    private Word getRandomWord(int position, List<String> sqlConditions) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Word" + (sqlConditions.isEmpty() ? StringUtils.EMPTY : " where "
-                        + String.join(", ", sqlConditions)), Word.class)
-                .setFirstResult(position)
-                .setMaxResults(1)
-                .getSingleResult();
+    @SuppressWarnings("deprecation")
+    private Word getRandomWord(int position, List<Criterion> criterionList) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Word.class);
+        criterionList.forEach(criteria::add);
+        return (Word) criteria.setFirstResult(position).setMaxResults(1).uniqueResult();
     }
 
 }

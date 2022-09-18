@@ -13,16 +13,12 @@ public class IrregularVerbFilter implements IFilter {
 
     public static final String ID = "irregular";
 
-    private final String id = "irregular";
-
     private final String type = "WORD";
-
-    private final List<String> sqlConditions = Collections.singletonList("irregular = true");
 
     private final String description = "Выбрать только неправильные глаголы";
 
     public String getId() {
-        return id;
+        return ID;
     }
 
     public String getType() {
@@ -35,11 +31,6 @@ public class IrregularVerbFilter implements IFilter {
     }
 
     @Override
-    public List<String> getSqlConditions() {
-        return sqlConditions;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
@@ -47,9 +38,8 @@ public class IrregularVerbFilter implements IFilter {
     @Override
     public String toString() {
         return "IrregularVerbFilter{" +
-                "id='" + id + '\'' +
+                "id='" + getId() + '\'' +
                 ", type='" + type + '\'' +
-                ", sqlConditions=" + sqlConditions +
                 ", description='" + description + '\'' +
                 '}';
     }

@@ -33,8 +33,7 @@ public class PhraseFactory implements IFactory {
                 .filter(filter -> filter.getId().equals(trainingConfig.getFilterId()))
                 .findFirst();
         final List<Criterion> criterionList = filterOptional.map(IFilter::getCriterionList).orElse(Collections.emptyList());
-        final List<String> sqlConditions = filterOptional.map(IFilter::getSqlConditions).orElse(Collections.emptyList());
-        final List<PhraseDto> phrases = mapper.convertPhraseListToPhraseDtoList(phraseService.getRandomPhrases(criterionList, sqlConditions, trainingConfig.getCount()));
+        final List<PhraseDto> phrases = mapper.convertPhraseListToPhraseDtoList(phraseService.getRandomPhrases(criterionList, trainingConfig.getCount()));
         final List<Unit> units = transform(phrases);
         return new PhraseTraining(trainingConfig.getCount(), units);
     }
